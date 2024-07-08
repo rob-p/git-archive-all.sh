@@ -112,6 +112,7 @@ SEPARATE=0
 VERBOSE=0
 
 TARCMD=`command -v gtar || command -v gnutar || command -v tar`
+REALPATHCMD=`command -v grealpath || command -v realpah`
 FORMAT=tar
 FORMAT_=tar # Format in processing
 PREFIX=
@@ -265,8 +266,8 @@ while read path; do
 
     if [ -z "$TREEISH" ]; then
         # It is not top repo's direct submodule.
-        ppath=$(realpath --relative-base="${PWD}" "$(git -C "${path%/*/}" rev-parse --show-toplevel)")
-        pathbase=$(realpath --relative-base="${ppath}" "${path%/}")
+        ppath=$(${REALPATHCMD} --relative-base="${PWD}" "$(git -C "${path%/*/}" rev-parse --show-toplevel)")
+        pathbase=$(${REALPATHCMD} --relative-base="${ppath}" "${path%/}")
 
         PARENT_TREEISH=$(sed -nr -e 's@^[ +-]@@' -e 's@ +\(.*\)$@@' -e 's@([^ ]+) +'"${ppath}"'$@\1@ p' "$TMPLIST" | tail -n1)
         if [ -n "$PARENT_TREEISH" ]; then
