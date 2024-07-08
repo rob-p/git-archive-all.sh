@@ -112,7 +112,7 @@ SEPARATE=0
 VERBOSE=0
 
 TARCMD=`command -v gtar || command -v gnutar || command -v tar`
-REALPATHCMD=`command -v grealpath || command -v realpah`
+REALPATHCMD=`command -v grealpath || command -v realpath`
 FORMAT=tar
 FORMAT_=tar # Format in processing
 PREFIX=
@@ -352,3 +352,9 @@ done < $TMPFILE
 if [ $VERBOSE -eq 1 ]; then
     echo "done"
 fi
+
+if [ $VERBOSE -eq 1 ]; then 
+    echo "computing sha256 of the tarball"
+    shasum -a 256 ${OUT_FILE} > ${OUT_FILE}.sha256
+fi
+
